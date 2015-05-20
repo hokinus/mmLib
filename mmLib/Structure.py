@@ -9,15 +9,8 @@ import math
 import string
 import itertools
 
-try:
-    import numpy
-    try:
-        from numpy.oldnumeric import linear_algebra as linalg
-    except ImportError:
-        from numpy.linalg import old as linalg
-except ImportError:
-    import NumericCompat as numpy
-    from NumericCompat import linalg
+import numpy
+from numpy import linalg
 
 import ConsoleOutput
 import Constants
@@ -2998,7 +2991,7 @@ class Atom(object):
         if self.U is None:
             return 1.0
 
-        evals = linalg.eigenvalues(self.U)
+        evals = linalg.eigvals(self.U)
         ansotropy = min(evals) / max(evals)
         return ansotropy
 
@@ -3010,7 +3003,7 @@ class Atom(object):
         if self.U is None:
             return (1.0, 1.0, 1.0)
 
-        e1, e2, e3 = linalg.eigenvalues(self.U)
+        e1, e2, e3 = linalg.eigvals(self.U)
         elist = [e1, e2, e3]
         elist.sort()
         e1, e2, e3 = elist

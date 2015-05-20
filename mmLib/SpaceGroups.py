@@ -4,10 +4,7 @@
 ## included as part of this package.
 """Symmetry operations as functions on vectors or arrays.
 """
-try:
-    import numpy
-except ImportError:
-    import NumericCompat as numpy
+import numpy
 import ConsoleOutput
 
 ## 64 unique rotation matricies

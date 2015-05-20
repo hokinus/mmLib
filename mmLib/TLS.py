@@ -8,15 +8,8 @@ import re
 import fpformat
 import math
 
-try:
-    import numpy
-    try:
-        from numpy.oldnumeric import linear_algebra as linalg
-    except ImportError:
-        from numpy.linalg import old as linalg
-except ImportError:
-    import NumericCompat as numpy
-    from NumericCompat import linalg
+import numpy
+from numpy import linalg
 
 import Constants
 import ConsoleOutput
@@ -1224,7 +1217,7 @@ def solve_TLS_Ab(A, b):
     """Solve an overdetermined TLS system by singular value decomposition.
     """
     ## solve by SVD
-    U, W, Vt = linalg.singular_value_decomposition(A, full_matrices=0)
+    U, W, Vt = linalg.svd(A, full_matrices=0)
 
     V  = numpy.transpose(Vt)
     Ut = numpy.transpose(U)
@@ -1383,7 +1376,7 @@ def calc_itls_center_of_reaction(iT, iL, iS, origin):
     rdict["Tr3_rmsd"] = 0.0
 
     ## set the L tensor eigenvalues and eigenvectors
-    (L_evals, RL) = linalg.eigenvectors(L0)
+    (L_evals, RL) = linalg.eig(L0)
     L1, L2, L3 = L_evals
 
     good_L_eigens = []
@@ -1405,7 +1398,7 @@ def calc_itls_center_of_reaction(iT, iL, iS, origin):
 
     ## no good L eigenvalues
     if len(good_L_eigens) == 0:
-        Tr1, Tr2, Tr3 = linalg.eigenvalues(T0)
+        Tr1, Tr2, Tr3 = linalg.eigvals(T0)
 
         if numpy.allclose(Tr1, 0.0) or isinstance(Tr1, complex):
             Tr1 = 0.0
@@ -1469,12 +1462,12 @@ def calc_itls_center_of_reaction(iT, iL, iS, origin):
     ## begin tensor transformations which depend upon
     ## the eigenvectors of L0 being well-determined
     ## make sure RLt is right-handed
-    if numpy.allclose(linalg.determinant(RL), -1.0):
+    if numpy.allclose(linalg.det(RL), -1.0):
         I = numpy.identity(3, float)
         I[0,0] = -1.0
         RL = numpy.dot(I, RL)
 
-    if not numpy.allclose(linalg.determinant(RL), 1.0):
+    if not numpy.allclose(linalg.det(RL), 1.0):
         return rdict
 
     RLt = numpy.transpose(RL)
@@ -1841,7 +1834,7 @@ def calc_TLS_center_of_reaction(T0, L0, S0, origin):
     rdict["Tr3_rmsd"] = 0.0
 
     ## set the L tensor eigenvalues and eigenvectors
-    (L_evals, RL) = linalg.eigenvectors(L0)
+    (L_evals, RL) = linalg.eig(L0)
     L1, L2, L3 = L_evals
 
     good_L_eigens = []
@@ -1911,12 +1904,12 @@ def calc_TLS_center_of_reaction(T0, L0, S0, origin):
     ## begin tensor transformations which depend upon
     ## the eigenvectors of L0 being well-determined
     ## make sure RLt is right-handed
-    if numpy.allclose(linalg.determinant(RL), -1.0):
+    if numpy.allclose(linalg.det(RL), -1.0):
         I = numpy.identity(3, float)
         I[0,0] = -1.0
         RL = numpy.dot(I, RL)
 
-    if not numpy.allclose(linalg.determinant(RL), 1.0):
+    if not numpy.allclose(linalg.det(RL), 1.0):
         return rdict
 
     RLt = numpy.transpose(RL)
@@ -2066,7 +2059,7 @@ def calc_TLS_center_of_reaction(T0, L0, S0, origin):
     Tr = numpy.dot(numpy.dot(RLt, cTred), RL)
     rdict["rT'"] = Tr
 
-    Tr1, Tr2, Tr3 = linalg.eigenvalues(Tr)
+    Tr1, Tr2, Tr3 = linalg.eigvals(Tr)
 
     if numpy.allclose(Tr1, 0.0) or isinstance(Tr1, complex):
         Tr1 = 0.0
@@ -2344,7 +2337,7 @@ def calc_TLSCA_least_squares_fit(segment, origin):
                              [ X[iL11+4], X[iL11+5], X[iL11+2] ] ], float)
 
         frag_L_dict[frag] = CA_L
-        eval = linalg.eigenvalues(CA_L) * Constants.RAD2DEG2
+        eval = linalg.eigvals(CA_L) * Constants.RAD2DEG2
 
         print "%s %s: %6.2f %6.2f %6.2f" % (
             frag.fragment_id, frag.res_name, eval[0],eval[1],eval[2])
@@ -2537,7 +2530,7 @@ class TLSGroup(Structure.AtomList):
         for atm, Utls in self.iter_atm_Utls():
             n += 1
 
-            evals  = linalg.eigenvalues(Utls)
+            evals  = linalg.eigvals(Utls)
             max_ev = max(evals)
             min_ev = min(evals)
 
@@ -4473,9 +4466,9 @@ def test_module():
     print tls
 
     print "eigenvalues(T)"
-    print linalg.eigenvalues(tls.T)
+    print linalg.eigvals(tls.T)
     print "eigenvalues(L)"
-    print linalg.eigenvalues(tls.L)
+    print linalg.eigvals(tls.L)
 
     print "==============================================="
 
@@ -4494,9 +4487,9 @@ def test_module():
 ##         print tls
 
 ##         print "eigenvalues(T)"
-##         print linalg.eigenvalues(tls.T)
+##         print linalg.eigvals(tls.T)
 ##         print "eigenvalues(L)"
-##         print linalg.eigenvalues(tls.L)
+##         print linalg.eigvals(tls.L)
 
 ##         print "-----------------------"
 

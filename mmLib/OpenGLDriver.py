@@ -8,15 +8,8 @@ import sys
 import copy
 import math
 
-try:
-    import numpy
-    try:
-        from numpy.oldnumeric import linear_algebra as linalg
-    except ImportError:
-        from numpy.linalg import old as linalg
-except ImportError:
-    import NumericCompat as numpy
-    from NumericCompat import linalg
+import numpy
+from numpy import linalg
 
 from OpenGL.GL      import *
 from OpenGL.GLU     import *
@@ -542,7 +535,7 @@ class OpenGLDriver(object):
         """Draw the anisotropic axies of the atom at the given probability.
         """
         C = Gaussian.GAUSS3C[prob]        
-        eval_U, evec_U = linalg.eignvectors(U)
+        eval_U, evec_U = linalg.eig(U)
 
         try:
             v0_peak = C * math.sqrt(eval_U[0])

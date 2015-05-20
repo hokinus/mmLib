@@ -6,15 +6,8 @@
 """
 import math
 
-try:
-    import numpy
-    try:
-        from numpy.oldnumeric import linear_algebra as linalg
-    except ImportError:
-        from numpy.linalg import old as linalg
-except ImportError:
-    import NumericCompat as numpy
-    from NumericCompat import linalg
+import numpy
+from numpy import linalg
 
 import AtomMath
 import SpaceGroups
@@ -56,7 +49,7 @@ class UnitCell(object):
         self.frac_to_orth = self.calc_orthogonalization_matrix()
 
         ## check our math!
-        assert numpy.allclose(self.orth_to_frac, linalg.inverse(self.frac_to_orth))
+        assert numpy.allclose(self.orth_to_frac, linalg.inv(self.frac_to_orth))
 
     def __str__(self):
         alpha = math.degrees(self.alpha)

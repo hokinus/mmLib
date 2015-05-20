@@ -9,15 +9,8 @@ from __future__  import generators
 import copy
 import math
 
-try:
-    import numpy
-    try:
-        from numpy.oldnumeric import linear_algebra as linalg
-    except ImportError:
-        from numpy.linalg import old as linalg
-except ImportError:
-    import NumericCompat as numpy
-    from NumericCompat import linalg
+import numpy
+from numpy import linalg
 
 import Library
 import GeometryDict
@@ -2830,7 +2823,7 @@ class GLViewer(GLObject):
             gl_fog             = self.properties["GL_FOG"])
 
         R = self.properties["R"]
-        assert numpy.allclose(linalg.determinant(R), 1.0)
+        assert numpy.allclose(linalg.det(R), 1.0)
 
         driver.glr_mult_matrix_R(R)
         driver.glr_translate(-self.properties["cor"])

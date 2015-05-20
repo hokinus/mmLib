@@ -7,15 +7,8 @@ method which avoids improper rotations.
 """
 import math
 
-try:
-    import numpy
-    try:
-        from numpy.oldnumeric import linear_algebra as linalg
-    except ImportError:
-        from numpy.linalg import old as linalg
-except ImportError:
-    import NumericCompat as numpy
-    from NumericCompat import linalg
+import numpy
+from numpy import linalg
     
 import AtomMath
 
@@ -127,7 +120,7 @@ def SuperimposePoints(src_points, dst_points):
     F[3,2] = F[2,3]
     F[3,3] =-R[0,0] - R[1,1] + R[2,2]
 
-    evals, evecs = linalg.eigenvectors(F)
+    evals, evecs = linalg.eig(F)
 
     i = numpy.argmax(evals)
     eval = evals[i]

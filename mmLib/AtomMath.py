@@ -6,17 +6,8 @@
 """
 import math
 
-try:
-    import numpy
-    try:
-        from numpy.oldnumeric import linear_algebra as linalg
-    except ImportError:
-        from numpy.linalg import old as linalg        
-except ImportError:
-    import NumericCompat as numpy
-    from NumericCompat import linalg
-
-import Constants
+import numpy
+from numpy import linalg
 
 
 ##
@@ -99,7 +90,7 @@ def rmatrix(alpha, beta, gamma):
          [cosB*sinG, cosA*cosG+sinA*sinB*sinG, cosA*sinB*sinG-cosG*sinA ],
          [-sinB,     cosB*sinA,                cosA*cosB ]], float)
 
-    assert numpy.allclose(linalg.determinant(R), 1.0)
+    assert numpy.allclose(linalg.det(R), 1.0)
     return R
 
 def rmatrixu(u, theta):
@@ -119,10 +110,10 @@ def rmatrixu(u, theta):
          [-y*sa+(1.0-ca)*x*z,     x*sa+(1.0-ca)*y*z,      1.0+(1.0-ca)*(z*z-1.0)]], float)
 
     try:
-        assert numpy.allclose(linalg.determinant(R), 1.0)
+        assert numpy.allclose(linalg.det(R), 1.0)
     except AssertionError:
         print "rmatrixu(%s, %f) determinant(R)=%f" % (
-            u, theta, linalg.determinant(R))
+            u, theta, linalg.det(R))
         raise
     
     return R
@@ -163,9 +154,9 @@ def rmatrixz(vec):
     R = numpy.dot(Rxz2z, Rxz)
 
     try:
-        assert numpy.allclose(linalg.determinant(R), 1.0)
+        assert numpy.allclose(linalg.det(R), 1.0)
     except AssertionError:
-        print "rmatrixz(%s) determinant(R)=%f" % (vec, linalg.determinant(R))
+        print "rmatrixz(%s) determinant(R)=%f" % (vec, linalg.det(R))
         raise
 
     return R
@@ -249,13 +240,13 @@ def rmatrixquaternion(q):
                [r10, r11, r12],
                [r20, r21, r22]], float)
     
-    assert numpy.allclose(linalg.determinant(R), 1.0)
+    assert numpy.allclose(linalg.det(R), 1.0)
     return R
 
 def quaternionrmatrix(R):
     """Return a quaternion calculated from the argument rotation matrix R.
     """
-    assert numpy.allclose(linalg.determinant(R), 1.0)
+    assert numpy.allclose(linalg.det(R), 1.0)
 
     t = numpy.trace(R) + 1.0
 
@@ -407,16 +398,16 @@ def calc_CCuij(U, V):
     and V.
     """
     ## FIXME: Check for non-positive Uij's, 2009-08-19
-    invU = linalg.inverse(U)
-    invV = linalg.inverse(V)
+    invU = linalg.inv(U)
+    invV = linalg.inv(V)
     #invU = internal_inv3x3(U)
     #invV = internal_inv3x3(V)
     
-    det_invU = linalg.determinant(invU)
-    det_invV = linalg.determinant(invV)
+    det_invU = linalg.det(invU)
+    det_invV = linalg.det(invV)
 
     return ( math.sqrt(math.sqrt(det_invU * det_invV)) /
-             math.sqrt((1.0/8.0) * linalg.determinant(invU + invV)) )
+             math.sqrt((1.0/8.0) * linalg.det(invU + invV)) )
 
 def calc_Suij(U, V):
     """Calculate the similarity of anisotropic ADP tensors U and V.
@@ -435,16 +426,16 @@ def calc_DP2uij(U, V):
     """Calculate the square of the volumetric difference in the probability
     density function of anisotropic ADP tensors U and V.
     """
-    invU = linalg.inverse(U)
-    invV = linalg.inverse(V)
+    invU = linalg.inv(U)
+    invV = linalg.inv(V)
 
-    det_invU = linalg.determinant(invU)
-    det_invV = linalg.determinant(invV)
+    det_invU = linalg.det(invU)
+    det_invV = linalg.det(invV)
 
     Pu2 = math.sqrt( det_invU / (64.0 * Constants.PI3) )
     Pv2 = math.sqrt( det_invV / (64.0 * Constants.PI3) )
     Puv = math.sqrt(
-        (det_invU * det_invV) / (8.0*Constants.PI3 * linalg.determinant(invU + invV)))
+        (det_invU * det_invV) / (8.0*Constants.PI3 * linalg.det(invU + invV)))
 
     dP2 = Pu2 + Pv2 - (2.0 * Puv)
     
@@ -455,7 +446,7 @@ def calc_anisotropy(U):
     defined as the smallest eigenvalue of U divided by the largest eigenvalue
     of U.
     """
-    evals = linalg.eigenvalues(U)
+    evals = linalg.eigvals(U)
     return min(evals) / max(evals)
 
 def diff_trace_UV(U, V):
@@ -531,7 +522,7 @@ def calc_inertia_tensor(atom_iter, origin):
         I[1,2] += - x[1]*x[2]
         I[2,1] += - x[1]*x[2]
 
-    evals, evecs = linalg.eigenvectors(I)
+    evals, evecs = linalg.eig(I)
 
     ## order the tensor such that the largest
     ## principal component is along the z-axis, and
@@ -555,12 +546,12 @@ def calc_inertia_tensor(atom_iter, origin):
             R = numpy.array((evecs[0], evecs[1], evecs[2]), float)
 
     ## make sure the tensor is right-handed
-    if numpy.allclose(linalg.determinant(R), -1.0):
+    if numpy.allclose(linalg.det(R), -1.0):
         I = numpy.identity(3, float)
         I[0,0] = -1.0
         R = numpy.dot(I, R)
 
-    assert numpy.allclose(linalg.determinant(R), 1.0)
+    assert numpy.allclose(linalg.det(R), 1.0)
     return R
 
 

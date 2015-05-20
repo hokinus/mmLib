@@ -15,7 +15,6 @@ __all__ = [
     "mmCIFBuilder",
     "mmCIFDB",
     "mmCIF",
-    "NumericCompat",
     "OpenGLDriver",
     "PDBBuilder",
     "PDB",
