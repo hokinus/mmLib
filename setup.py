@@ -282,13 +282,19 @@ def extension_list(opts):
 def run_setup(opts):
     """Invoke the Python Distutils setup function.
     """
+    mon_dir = os.path.join(os.curdir, "mmLib", "Data", "Monomers")
+    if not (os.path.exists(mon_dir) or os.path.exists(mon_dir+'.zip')):
+        buildlib(opts)
+        
     s0 = setup(
         cmdclass     = {'install_data': package_install_data},
-        name         = "pymmlib",
-        version      = "1.2.0",
+        name         = "mmlib",
+        version      = "1.2.0_1",
         author       = "Jay Painter",
         author_email = "jpaint@u.washington.edu",
-        url          = "http://pymmlib.sourceforge.net/",
+        url          = "https://bitbucket.org/hokinus/mmlib",
+        maintainer   = "Przemyslaw Porebski",
+        maintainer_email = "pjp2b@virginia.edu",
         packages     = ["mmLib"],
         ext_modules  = extension_list(opts),
         data_files   = library_data(opts)
@@ -407,21 +413,27 @@ def buildlib(opts):
     """Download and construct the mmLib monomer library.
     """
     import urllib
+    import gzip
 
     LIB_FILE = os.path.join("mmLib", "Data", "Monomers.zip")
     LIB_PATH = os.path.join("mmLib", "Data", "Monomers")
-    TMP_PATH = "public-component-erf.cif"
-    URL      = "http://pdb.rutgers.edu/public-component-erf.cif"
+    TMP_PATH = "monomers.cif"
+    URL      = "ftp://ftp.wwpdb.org/pub/pdb/data/monomers/components.cif.gz"
 
     print "[BUILDLIB] downloading %s" % (URL)
 
-    fil = open(TMP_PATH, "w")
+    fil = open(TMP_PATH+'.gz', "wb")
 
     opener = urllib.FancyURLopener()
     con = opener.open(URL)
     for ln in con.readlines():
         fil.write(ln)
     con.close()
+    fil.close()
+    fil = gzip.open(TMP_PATH+'.gz', 'rb')
+    out = open(TMP_PATH, 'w')
+    out.writelines(fil)
+    out.close()
     fil.close()
 
     print "[BUILDLIB] constructing library from %s" % (TMP_PATH)
@@ -468,10 +480,11 @@ def check_pymmlib_options():
 
     ## Changed zip=True to zip=False, from Jay's suggestion.
     ## Christoph Champ, 2008-02-14
+    ## PP: I prefer zipped monomers 2015-05-20
     opt_defaults = {
         "pdb": True,
         "opengl": True,
-        "zip": False,
+        "zip": True,
         }
 
     opts = {}

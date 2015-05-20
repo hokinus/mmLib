@@ -1,1 +1,9 @@
 mmLib/Data/Monomers
+mmLib/Data/Monomers.zip
+*.pyc
+*.pyo
+*~
+*.swp
+build
+monomers.cif
+monomers.cif.gz
