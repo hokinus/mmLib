@@ -2,10 +2,11 @@
 ## This code is part of the PyMMLib distribution and governed by
 ## its license.  Please see the LICENSE file that should have been
 ## included as part of this package.
-import CIF
-import Structure
-import StructureBuilder
-from ConsoleOutput import warning
+from __future__ import absolute_import
+from . import CIF
+from . import Structure
+from . import StructureBuilder
+from .ConsoleOutput import warning
 
 def add_string(m, key, table, column, row):
     try:

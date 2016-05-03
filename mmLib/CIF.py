@@ -5,7 +5,7 @@
 ##
 ## DESCRIPTION: CIF Parser for CIF 1.1 format
 
-from mmCIF import mmCIFSyntaxError
+from .mmCIF import mmCIFSyntaxError
 class CIFSyntaxError(mmCIFSyntaxError):
     pass
 

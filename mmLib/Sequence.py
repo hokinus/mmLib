@@ -3,7 +3,8 @@
 ## its license.  Please see the LICENSE file that should have been
 ## included as part of this package.
 
-import Library
+from __future__ import absolute_import
+from . import Library
 
 class Sequence(object):
     """Sequence information for a biopolymer chain.

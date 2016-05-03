@@ -5,12 +5,13 @@
 """Class for least-squares structural superposition.  Uses a quaternion
 method which avoids improper rotations.
 """
+from __future__ import absolute_import
 import math
 
 import numpy
 from numpy import linalg
     
-import AtomMath
+from . import AtomMath
 
 def QuaternionToRotationMatrix(q):
     """Create a rotation matrix from q quaternion rotation.
@@ -201,9 +202,9 @@ def SuperimposeAtomsOutlierRejection(alist, rmsd_cutoff = 1.0, max_cycles = 100)
 ## <testing>
 def test_module():
     import random
-    import AtomMath
-    import FileIO
-    import Structure
+    from . import AtomMath
+    from . import FileIO
+    from . import Structure
     
     R = AtomMath.rmatrixu(numpy.array((0.0, 0.0, 1.0), float), math.pi/2.0)
 

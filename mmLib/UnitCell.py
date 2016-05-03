@@ -4,13 +4,14 @@
 ## included as part of this package.
 """Classes for handling unit cell transformation.
 """
+from __future__ import absolute_import
 import math
 
 import numpy
 from numpy import linalg
 
-import AtomMath
-import SpaceGroups
+from . import AtomMath
+from . import SpaceGroups
 
 
 class UnitCell(object):

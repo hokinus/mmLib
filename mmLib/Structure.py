@@ -4,6 +4,7 @@
 ## included as part of this package.
 """Classes for representing biological macromolecules.
 """
+from __future__ import absolute_import
 import copy
 import math
 import string
@@ -12,14 +13,14 @@ import itertools
 import numpy
 from numpy import linalg
 
-import ConsoleOutput
-import Constants
-import GeometryDict
-import AtomMath
-import Library
-import UnitCell
-import Sequence
-import mmCIFDB
+from . import ConsoleOutput
+from . import Constants
+from . import GeometryDict
+from . import AtomMath
+from . import Library
+from . import UnitCell
+from . import Sequence
+from . import mmCIFDB
 
 
 class StructureError(Exception):

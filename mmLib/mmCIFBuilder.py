@@ -4,14 +4,15 @@
 ## included as part of this package.
 """Convert a Structure object into its mmCIFFile description.
 """
+from __future__ import absolute_import
 ## Python
 import copy
 
 ## pymmlib
-import ConsoleOutput
-import mmCIF
-import StructureBuilder
-import Structure
+from . import ConsoleOutput
+from . import mmCIF
+from . import StructureBuilder
+from . import Structure
 
 
 def setmaps_cif(smap, skey, dmap, dkey):

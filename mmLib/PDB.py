@@ -7,7 +7,7 @@ specification have corresponding classes defined here. PDB files are
 loaded into a list of these cassed, and also can be constrcted/modified
 and written back out as PDB files.
 """
-from __future__ import generators
+from __future__ import generators, absolute_import
 import fpformat
 
 

@@ -4,6 +4,7 @@
 ## included as part of this package.
 """Utility classes for loading, manipulating, and analyzing TLS parameters.
 """
+from __future__ import absolute_import
 import re
 import fpformat
 import math
@@ -11,14 +12,14 @@ import math
 import numpy
 from numpy import linalg
 
-import Constants
-import ConsoleOutput
-import AtomMath
-import PDB
-import Structure
-import Viewer
-import Gaussian
-import Colors
+from . import Constants
+from . import ConsoleOutput
+from . import AtomMath
+from . import PDB
+from . import Structure
+from . import Viewer
+from . import Gaussian
+from . import Colors
 
 ###############################################################################
 ## EXCEPTION BASE CLASS

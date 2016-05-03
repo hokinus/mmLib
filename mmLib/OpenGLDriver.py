@@ -4,6 +4,7 @@
 ## included as part of this package.
 """OpenGL rendering classes.
 """
+from __future__ import absolute_import
 import sys
 import copy
 import math
@@ -15,9 +16,9 @@ from OpenGL.GL      import *
 from OpenGL.GLU     import *
 from OpenGL.GLUT    import *
 
-import ConsoleOutput
-import Gaussian
-import AtomMath
+from . import ConsoleOutput
+from . import Gaussian
+from . import AtomMath
 
 try:
     import glaccel

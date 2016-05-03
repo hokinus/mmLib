@@ -4,7 +4,7 @@
 ## included as part of this package.
 """Visualization system for Structure objects.
 """
-from __future__  import generators
+from __future__  import generators, absolute_import
 
 import copy
 import math
@@ -12,12 +12,12 @@ import math
 import numpy
 from numpy import linalg
 
-import Library
-import GeometryDict
-import AtomMath
-import Structure
-import Gaussian
-import Colors
+from . import Library
+from . import GeometryDict
+from . import AtomMath
+from . import Structure
+from . import Gaussian
+from . import Colors
 
 
 ## MISC Constents

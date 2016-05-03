@@ -5,6 +5,7 @@
 """Viewer.py graphics driver for producing a output file
 for the Raster3D ray tracer.
 """
+from __future__ import absolute_import
 import subprocess
 import copy
 import random
@@ -13,10 +14,10 @@ import math
 import numpy
 from numpy import linalg
 
-import ConsoleOutput
-import Constants
-import Gaussian
-import AtomMath
+from . import ConsoleOutput
+from . import Constants
+from . import Gaussian
+from . import AtomMath
 
 ## constants
 MARGIN          = 1.15

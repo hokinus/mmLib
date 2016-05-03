@@ -4,8 +4,9 @@
 ## included as part of this package.
 """Symmetry operations as functions on vectors or arrays.
 """
+from __future__ import absolute_import
 import numpy
-import ConsoleOutput
+from . import ConsoleOutput
 
 ## 64 unique rotation matricies
 Rot_Z_mY_X    = numpy.array([[ 0.0, 0.0, 1.0], [ 0.0,-1.0, 0.0], [ 1.0, 0.0, 0.0]], float)

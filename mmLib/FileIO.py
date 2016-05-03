@@ -8,11 +8,11 @@ The mmCIF and PDB file formats are currently supported.
 import os
 import types
 
-from mmCIF        import mmCIFFile
-from mmCIFBuilder import mmCIFStructureBuilder, mmCIFFileBuilder
-from PDB          import PDBFile
-from PDBBuilder   import PDBStructureBuilder, PDBFileBuilder
-from CIFBuilder   import CIFStructureBuilder
+from .mmCIF        import mmCIFFile
+from .mmCIFBuilder import mmCIFStructureBuilder, mmCIFFileBuilder
+from .PDB          import PDBFile
+from .PDBBuilder   import PDBStructureBuilder, PDBFileBuilder
+from .CIFBuilder   import CIFStructureBuilder
 
 
 class FileIOUnsupportedFormat(Exception):

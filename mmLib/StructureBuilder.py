@@ -5,10 +5,11 @@
 """Classes for building a mmLib.Structure representation of biological
 macromolecules.
 """
-import ConsoleOutput
-import Library
-import Structure
-import UnitCell
+from __future__ import absolute_import
+from . import ConsoleOutput
+from . import Library
+from . import Structure
+from . import UnitCell
 
 
 class StructureBuilderError(Exception):

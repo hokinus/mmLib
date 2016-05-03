@@ -5,12 +5,13 @@
 """Monomer and element library data classes.  The Library classes are used
 for the identification and construction of biopolymers and ligands.
 """
+from __future__ import absolute_import
 import os
 import sys
 import types
 
-import ConsoleOutput
-import mmCIF
+from . import ConsoleOutput
+from . import mmCIF
 
 
 ###############################################################################

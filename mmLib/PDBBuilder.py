@@ -4,12 +4,13 @@
 ## included as part of this package.
 """Convert a Structure object to its PDBFile description.
 """
-import ConsoleOutput
-import Library
-import PDB
-import mmCIF
-import Structure
-import StructureBuilder
+from __future__ import absolute_import  
+from . import ConsoleOutput
+from . import Library
+from . import PDB
+from . import mmCIF
+from . import Structure
+from . import StructureBuilder
 
 
 ## class specification for alpha helices mapping mmLib classification

@@ -137,7 +137,7 @@ class XYZDict(object):
 ### <testing>
 def test_module():
     import sys
-    import FileIO
+    from . import FileIO
     
     struct = FileIO.LoadStructure(fil=sys.argv[1])
 

@@ -5,11 +5,11 @@
 """Structural database based on mmCIF.
 """
 ## Python
-from __future__ import generators
+from __future__ import generators, absolute_import
 import copy
 
 ## pymmlib
-import mmCIF
+from . import mmCIF
 
 
 class mmCIFDB(mmCIF.mmCIFData):

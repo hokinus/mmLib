@@ -4,6 +4,7 @@
 ## included as part of this package.
 """Mathematical operations performed on mmLib.Strcuture.Atom objects.
 """
+from __future__ import absolute_import
 import math
 
 import numpy
@@ -557,7 +558,7 @@ def calc_inertia_tensor(atom_iter, origin):
 
 ### <TESTING>
 def test_module():
-    import Structure
+    from . import Structure
 
     a1 = Structure.Atom(x=0.0, y=-1.0, z=0.0)
     a2 = Structure.Atom(x=0.0, y=0.0,  z=0.0)
