@@ -142,7 +142,7 @@ class mmCIFTable(list):
         if isinstance(x, int):
             return list.__getitem__(self, x)
 
-        elif isinstance(x, str):
+        elif isinstance(x, basestring):
             try:
                 return self[0][x]
             except (IndexError, KeyError):
@@ -157,7 +157,7 @@ class mmCIFTable(list):
             value.table = self
             list.__setitem__(self, x, value)
 
-        elif isinstance(x, str):
+        elif isinstance(x, basestring):
             try:
                 self[0][x] = value
             except IndexError:
@@ -343,7 +343,7 @@ class mmCIFData(list):
         if isinstance(x, int):
             return list.__getitem__(self, x)
 
-        elif isinstance(x, str):
+        elif isinstance(x, basestring):
             name = x.lower()
             for ctable in self:
                 if ctable.name.lower() == name:
@@ -368,7 +368,7 @@ class mmCIFData(list):
             table.data = self
             list.__setitem__(self, x, table)
 
-        elif isinstance(x, str):
+        elif isinstance(x, basestring):
             self.append(table)
 
     def __delitem__(self, x):
@@ -502,7 +502,7 @@ class mmCIFFile(list):
         if isinstance(x, int):
             return list.__getitem__(self, x)
 
-        elif isinstance(x, str):
+        elif isinstance(x, basestring):
             name = x.lower()
             for cdata in self:
                 if cdata.name.lower() == name:
@@ -555,14 +555,14 @@ class mmCIFFile(list):
         """Load and append the mmCIF data from file object fil into self.
         The fil argument must be a file object or implement its iterface.
         """
-        if isinstance(fil, str):
+        if isinstance(fil, basestring):
             fileobj = open(fil, "r")
         else:
             fileobj = fil
         mmCIFFileParser().parse_file(fileobj, self)
 
     def save_file(self, fil):
-        if isinstance(fil, str):
+        if isinstance(fil, basestring):
             fileobj = open(fil, "w")
         else:
             fileobj = fil
@@ -940,7 +940,7 @@ class mmCIFFileWriter(object):
         """
         assert x is not None
 
-        if not isinstance(x, str):
+        if not isinstance(x, basestring):
             x = str(x)
             return x, "token"
 

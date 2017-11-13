@@ -359,7 +359,7 @@ class GLObject(object):
 
                  ## add changes to actions list
                  ## case 1: action is a string
-                 if isinstance(prop_desc["action"], str):
+                 if isinstance(prop_desc["action"], basestring):
                      if prop_desc["action"] not in actions:
                          actions.append(prop_desc["action"])
                  ## case 2: action is a list of strings
@@ -429,7 +429,7 @@ class GLObject(object):
 
                 ## now update the actions taken when a property changes
                 ## case 1: action is a string
-                if isinstance(prop_desc["action"], str):
+                if isinstance(prop_desc["action"], basestring):
                     if prop_desc["action"] not in actions:
                         actions.append(prop_desc["action"])
                 ## case 2: action is a list of strings

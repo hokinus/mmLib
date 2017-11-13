@@ -389,7 +389,7 @@ class TLSFileFormatPDB(TLSFileFormat, PDB.RecordProcessor):
         return True
 
     def load(self, fil):
-        if isinstance(fil, str):
+        if isinstance(fil, basestring):
             fileobj = open(fil, "r")
         else:
             fileobj = fil

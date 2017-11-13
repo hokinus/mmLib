@@ -86,7 +86,7 @@ class PDBRecord(dict):
 
             ## assert type
             try:
-                assert isinstance(s, str)
+                assert isinstance(s, basestring)
             except AssertionError:
                 print "### s",str(type(s)), str(s), ftype, field
                 print ln
@@ -1559,7 +1559,7 @@ class PDBFile(list):
     def load_file(self, fil):
         """Loads a PDB file from File object fil.
         """
-        if isinstance(fil, str):
+        if isinstance(fil, basestring):
             fileobj = open(fil, "r")
         else:
             fileobj = fil
@@ -1571,7 +1571,7 @@ class PDBFile(list):
     def save_file(self, fil):
         """Saves the PDBFile object in PDB file format to File object fil.
         """
-        if isinstance(fil, str):
+        if isinstance(fil, basestring):
             fileobj = open(fil, "w")
         else:
             fileobj = fil

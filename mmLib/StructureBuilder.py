@@ -428,7 +428,7 @@ class StructureBuilder(object):
     def load_structure_id(self, structure_id):
         """
         """
-        assert isinstance(structure_id, str)
+        assert isinstance(structure_id, basestring)
         self.struct.structure_id = structure_id
 
     def load_unit_cell(self, ucell_map):

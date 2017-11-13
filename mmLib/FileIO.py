@@ -45,7 +45,7 @@ def OpenFile(path, mode):
     """
     ## if path is not a string, assume it is a file object and return it
 
-    if isinstance(path, str):
+    if isinstance(path, basestring):
         base, ext = os.path.splitext(path)
         if ext == ".gz":
             import gzip
@@ -60,7 +60,7 @@ def OpenFile(path, mode):
 def get_file_extension(path, default_extension = "PDB"):
     """Returns the 3-letter extension of the filename.
     """
-    if not isinstance(path, str):
+    if not isinstance(path, basestring):
         return default_extension
 
     ## check/remove compressed file extension
@@ -91,7 +91,7 @@ def get_file_arg(args):
 
 
 def open_fileobj(fil, file_mode):
-    if isinstance(fil, str):
+    if isinstance(fil, basestring):
         fileobj = OpenFile(fil, file_mode)
     else:
         fileobj = fil
