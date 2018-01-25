@@ -24,6 +24,12 @@ def setmaps_cif(smap, skey, dmap, dkey):
             return False
         dmap[dkey] = str(x)
         return True
+    elif smap.has_key(skey):
+        x = smap.__getitem__(skey)
+        if x in ('', '?', '.'):
+            return False
+        dmap[dkey] = str(x)
+        return True
     return False
 
 
@@ -39,6 +45,15 @@ def setmapi_cif(smap, skey, dmap, dkey):
         except ValueError:
             return False
         return True
+    elif smap.has_key(skey):
+        x = smap.__getitem__(skey)
+        if x in ('', '?', '.'):
+            return False
+        try:
+            dmap[dkey] = int(x)
+        except ValueError:
+            return False
+        return True
     return False
 
 
@@ -47,6 +62,15 @@ def setmapf_cif(smap, skey, dmap, dkey):
     """
     if smap.has_key_lower(skey):
         x = smap.getitem_lower(skey)
+        if x in ('', '?', '.'):
+            return False
+        try:
+            dmap[dkey] = float(x)
+        except ValueError:
+            return False
+        return True
+    elif smap.has_key(skey):
+        x = smap.__getitem__(skey)
         if x in ('', '?', '.'):
             return False
         try:
