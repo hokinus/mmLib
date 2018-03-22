@@ -10,6 +10,7 @@ import math
 import numpy
 from numpy import linalg
 
+from . import Constants
 
 ##
 ## Linear Algebra
