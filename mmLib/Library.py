@@ -449,7 +449,7 @@ def library_construct_monomer_desc(res_name):
     ## set some derived flags on the monomer description
     mon_type = mon_desc.type.upper()
 
-    if mon_type == "L-PEPTIDE LINKING":
+    if mon_type == "L-PEPTIDE LINKING" or mon_type == 'PEPTIDE LINKING':
         mon_desc.amino_acid = True
 
     elif mon_type == "DNA LINKING" or mon_type == "RNA LINKING":
