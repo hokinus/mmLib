@@ -6,7 +6,7 @@
 """
 from __future__ import absolute_import
 ## Python
-import copy
+import copy, string
 
 ## pymmlib
 from . import ConsoleOutput
@@ -193,6 +193,9 @@ class mmCIFStructureBuilder(StructureBuilder.StructureBuilder):
             setmaps_cif(atom_site, self.alt_id,  atm_map, "alt_loc")
             setmaps_cif(atom_site, self.comp_id, atm_map, "res_name")
             setmaps_cif(atom_site, self.seq_id,  atm_map, "fragment_id")
+            # Add insertion code if present
+            setmaps_cif(atom_site, 'pdbx_PDB_ins_code', atm_map, "ins_code")
+                 
             setmaps_cif(atom_site, self.asym_id, atm_map, "chain_id")
 
             setmaps_cif(atom_site, "label_entity_id", atm_map, "label_entity_id")
@@ -234,6 +237,11 @@ class mmCIFStructureBuilder(StructureBuilder.StructureBuilder):
                     setmapf_cif(aniso, "u[1][2]_esd", atm_map, "sig_u12")
                     setmapf_cif(aniso, "u[1][3]_esd", atm_map, "sig_u13")
                     setmapf_cif(aniso, "u[2][3]_esd", atm_map, "sig_u23")
+
+            # fragment id is expected to have form 111X where X is optional 
+            # insertion_code 
+            if 'ins_code' in atm_map and atm_map['ins_code']:
+                atm_map['fragment_id'] = atm_map['fragment_id']+atm_map['ins_code']
 
             atm = self.load_atom(atm_map)
             self.atom_site_id_map[atom_site_id] = atm
@@ -362,18 +370,18 @@ class mmCIFStructureBuilder(StructureBuilder.StructureBuilder):
                 ("label_asym_id", asym_id1),
                 ("label_seq_id",  seq_id1),
                 ("label_comp_id", comp_id1),
-                ("auth_asym_id", auth_asym_id1),
-                ("auth_seq_id",  auth_seq_id1),
-                ("auth_comp_id", auth_comp_id1),
+                # ("auth_asym_id", auth_asym_id1),
+                # ("auth_seq_id",  auth_seq_id1),
+                # ("auth_comp_id", auth_comp_id1),
                 ("label_atom_id", atom_id1))
 
             as2 = atom_site.get_row(
                 ("label_asym_id", asym_id2),
                 ("label_seq_id",  seq_id2),
                 ("label_comp_id", comp_id2),
-                ("auth_asym_id", auth_asym_id2),
-                ("auth_seq_id",  auth_seq_id2),
-                ("auth_comp_id", auth_comp_id2),
+                # ("auth_asym_id", auth_asym_id2),
+                # ("auth_seq_id",  auth_seq_id2),
+                # ("auth_comp_id", auth_comp_id2),
                 ("label_atom_id", atom_id2))
 
             if not as1 or not as2:
@@ -472,14 +480,14 @@ CIF_BUILD_TABLES = {
         "Cartn_x", "Cartn_y", "Cartn_z", "occupancy", "B_iso_or_equiv",
         "Cartn_x_esd", "Cartn_y_esd", "Cartn_z_esd", "occupancy_esd",
         "B_iso_or_equiv_esd", "auth_asym_id", "auth_seq_id", "auth_comp_id",
-        "auth_alt_id", "auth_atom_id", "pdbx_PDB_model_num"],
+        "auth_alt_id", "auth_atom_id", "pdbx_PDB_model_num", 'pdbx_PDB_ins_code'],
 
     "atom_site_anisotrop": [
         "id", "type_symbol", "label_entity_id", "U[1][1]", "U[1][2]",
         "U[1][3]", "U[2][2]", "U[2][3]", "U[3][3]", "U[1][1]_esd",
         "U[1][2]_esd", "U[1][3]_esd", "U[2][2]_esd", "U[2][3]_esd",
         "U[3][3]_esd", "pdbx_auth_seq_id", "pdbx_auth_comp_id",
-        "pdbx_auth_asym_id", "pdbx_auth_atom_id"]
+        "pdbx_auth_asym_id", "pdbx_auth_atom_id", 'pdbx_PDB_ins_code']
     }
 
 
@@ -737,7 +745,14 @@ class mmCIFFileBuilder(object):
         asrow["auth_atom_id"]       = atm.name
         asrow["auth_alt_id"]        = atm.alt_loc
         asrow["auth_comp_id"]       = atm.res_name
-        asrow["auth_seq_id"]        = atm.fragment_id
+        
+        if atm.fragment_id[-1] not in string.digits:
+            asrow['pdbx_PDB_ins_code'] = atm.fragment_id[-1]
+            asrow["auth_seq_id"]       = atm.fragment_id[:-1]
+        else:
+            asrow['pdbx_PDB_ins_code'] = '?'
+            asrow["auth_seq_id"]       = atm.fragment_id
+
         asrow["auth_asym_id"]       = atm.chain_id
 
         asrow["type_symbol"]        = atm.element
@@ -782,6 +797,7 @@ class mmCIFFileBuilder(object):
             anrow["pdbx_auth_comp_id"] = asrow["auth_comp_id"]
             anrow["pdbx_auth_asym_id"] = asrow["auth_asym_id"]
             anrow["pdbx_auth_atom_id"] = asrow["auth_atom_id"]
+            anrow['pdbx_PDB_ins_code'] = asrow['pdbx_PDB_ins_code']
             anrow["pdbx_auth_alt_id"]  = asrow["auth_alt_id"]
 
             if atm.U[0,0] is not None:
